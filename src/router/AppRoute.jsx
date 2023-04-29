@@ -3,8 +3,10 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthRoute } from "../auth";
 
 import { CalendarPage } from "../calendar/pages";
+import { getEnvironmentVar } from "../helper";
 
 export const AppRoute = () => {
+  console.log(getEnvironmentVar());
   const auth = "authenticated";
   return (
     <Routes>
