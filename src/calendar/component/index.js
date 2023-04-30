@@ -5,3 +5,6 @@ export * from "./Error";
 export * from "./DatePickerComponent";
 export * from "./TitleAndNotes";
 export * from "./FloatingButton";
+export * from "./ShowHide";
+export * from "./LoginForm";
+export * from "./RegisterForm";

@@ -2,6 +2,7 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 
 import "./App.css";
+import { getEnvironmentVar } from "./helper";
 import { AppRoute } from "./router/AppRoute";
 
 import { store } from "./store";

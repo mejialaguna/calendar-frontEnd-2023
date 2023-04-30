@@ -1,10 +1,13 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthRoute } from "../auth";
 
 import { CalendarPage } from "../calendar/pages";
 
 export const AppRoute = () => {
+  const { status, user, errorMessage } = useSelector((state) => state.auth);
+
   const auth = "not-authenticated";
   return (
     <Routes>
