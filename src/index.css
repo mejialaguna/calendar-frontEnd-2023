@@ -37,3 +37,7 @@
   outline: none;
   padding: 10px;
 }
+
+.rbc-events-container .rbc-event {
+  align-items: center;
+}

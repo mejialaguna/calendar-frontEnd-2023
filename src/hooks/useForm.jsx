@@ -6,18 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { modalToggle } from "../store/ui/uiSlice";
 import { addNewEvent, updateEvent } from "../store";
 
-const modalInitialState = {
-  title: "",
-  notes: "",
-  start: new Date(),
-  end: addHours(new Date(), 2),
-  user: {
-    _id: 12345,
-    name: "JLML",
-  },
-};
-
-export const useForm = () => {
+export const useForm = (modalInitialState) => {
   const dispatch = useDispatch();
   const { activeEvent } = useSelector((state) => state.calendar);
 
@@ -81,6 +70,8 @@ export const useForm = () => {
       dispatch(addNewEvent({ ...form, _id: new Date().getTime() }));
       dispatch(modalToggle());
     }
+
+    console.log("submitted");
   };
 
   return {

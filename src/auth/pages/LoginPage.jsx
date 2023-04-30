@@ -1,9 +1,25 @@
-import React from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import calendar from "../../public/calendar.png";
 
+const initialState = {
+  loginEmail: "",
+  loginPassword: "",
+};
+
 export const LoginPage = () => {
+  const [form, setForm] = useState(initialState);
+
+  const onFormSubmit = (event) => {
+    event.preventDefault();
+  };
+
+  const onInputChange = ({ target }) => {
+    const { name, value } = target;
+    setForm({ ...form, [name]: value });
+  };
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 animate-fadeIn">
@@ -21,7 +37,11 @@ export const LoginPage = () => {
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Sign in to your account
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form
+              onSubmit={onFormSubmit}
+              className="space-y-4 md:space-y-6"
+              action="#"
+            >
               <div>
                 <label
                   htmlFor="email"
@@ -31,11 +51,12 @@ export const LoginPage = () => {
                 </label>
                 <input
                   type="email"
-                  name="email"
-                  id="email"
+                  name="loginEmail"
+                  value={form.loginEmail}
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
-                  required=""
+                  required={true}
+                  onChange={onInputChange}
                 />
               </div>
               <div>
@@ -47,11 +68,12 @@ export const LoginPage = () => {
                 </label>
                 <input
                   type="password"
-                  name="password"
-                  id="password"
+                  name="loginPassword"
+                  value={form.loginPassword}
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required=""
+                  required={true}
+                  onChange={onInputChange}
                 />
               </div>
               <div className="flex items-center justify-between">

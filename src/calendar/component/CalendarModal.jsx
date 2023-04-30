@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from "react-redux";
 import { modalToggle, removeEvent } from "../../store";
 
+import { differenceInSeconds, addHours } from "date-fns";
+
 import Modal from "react-modal";
 
 import { useForm } from "../../hooks";
@@ -8,6 +10,17 @@ import { useForm } from "../../hooks";
 import { DatePickerComponent, TitleAndNotes } from "./";
 
 import { save, calendar, remove } from "../../public";
+
+const modalInitialState = {
+  title: "",
+  notes: "",
+  start: new Date(),
+  end: addHours(new Date(), 2),
+  user: {
+    _id: 12345,
+    name: "JLML",
+  },
+};
 
 export const CalendarModal = () => {
   // ! important hold the value if the modal is open or closed.
@@ -23,7 +36,7 @@ export const CalendarModal = () => {
     onDateChange,
     onFormSubmit,
     onInputChange,
-  } = useForm();
+  } = useForm(modalInitialState);
 
   const customStyles = {
     content: {

@@ -1,9 +1,34 @@
-import React from "react";
+import React, { useCallback } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 
 import calendar from "../../public/calendar.png";
 
+const initialState = {
+  username: "",
+  registerEmail: "",
+  registerPassword: "",
+  confirmRegisterPassword: "",
+};
+
 export const RegisterPage = () => {
+  const [form, setForm] = useState(initialState);
+
+  const onFormSubmit = (event, data) => {
+    event.preventDefault();
+    console.log("submit");
+  };
+
+  const onInputChange = useCallback(
+    ({ target }) => {
+      const { name, value } = target;
+      setForm({ ...form, [name]: value });
+    },
+    [form]
+  );
+
+  console.log(form);
+
   return (
     <section className="bg-gray-50 dark:bg-gray-900 ">
       <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 animate-fadeIn">
@@ -19,23 +44,45 @@ export const RegisterPage = () => {
         <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-              Create and account
+              New Account
             </h1>
-            <form className="space-y-4 md:space-y-6" action="#">
+            <form
+              className="space-y-4 md:space-y-6"
+              action="#"
+              onSubmit={onFormSubmit}
+            >
+              <div>
+                <label
+                  htmlFor="username"
+                  className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                >
+                  Username
+                </label>
+                <input
+                  type="text"
+                  name="username"
+                  value={form.username}
+                  className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                  placeholder="Username"
+                  required={true}
+                  onChange={onInputChange}
+                />
+              </div>
               <div>
                 <label
                   htmlFor="email"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Your email
+                  Email
                 </label>
                 <input
                   type="email"
-                  name="email"
-                  id="email"
+                  name="registerEmail"
+                  value={form.registerEmail}
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                   placeholder="name@company.com"
-                  required=""
+                  required={true}
+                  onChange={onInputChange}
                 />
               </div>
               <div>
@@ -47,27 +94,29 @@ export const RegisterPage = () => {
                 </label>
                 <input
                   type="password"
-                  name="password"
-                  id="password"
+                  name="registerPassword"
+                  value={form.registerPassword}
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required=""
+                  required={true}
+                  onChange={onInputChange}
                 />
               </div>
               <div>
                 <label
-                  htmlFor="confirm-password"
+                  htmlFor="confirmRegisterPassword"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Confirm password
+                  Confirm Password
                 </label>
                 <input
-                  type="confirm-password"
-                  name="confirm-password"
-                  id="confirm-password"
+                  type="password"
+                  name="confirmRegisterPassword"
+                  value={form.confirmRegisterPassword}
                   placeholder="••••••••"
                   className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                  required=""
+                  required={true}
+                  onChange={onInputChange}
                 />
               </div>
               <div className="flex items-start">
@@ -85,7 +134,7 @@ export const RegisterPage = () => {
                     htmlFor="terms"
                     className="font-light text-gray-500 dark:text-gray-300"
                   >
-                    I accept the{" "}
+                    I accept the
                     <a
                       className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                       href="#"

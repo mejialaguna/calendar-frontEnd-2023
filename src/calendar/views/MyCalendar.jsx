@@ -19,6 +19,7 @@ export const MyCalendar = () => {
 
   const eventStyleGetter = (isSelected, event, start, end) => {
     const style = {
+      // alignItems: "center",
       // backgroundColor: "red",
       // borderRadius: "50%",
       // opacity: 0.5,
@@ -49,7 +50,9 @@ export const MyCalendar = () => {
         defaultView={lastView}
         startAccessor="start"
         endAccessor="end"
-        style={{ height: "calc(100vh - 100px)" }}
+        style={{
+          height: "calc(100vh - 100px)",
+        }}
         eventPropGetter={eventStyleGetter}
         components={{
           event: CalendarEvent,
