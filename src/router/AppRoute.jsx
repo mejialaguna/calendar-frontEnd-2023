@@ -9,9 +9,10 @@ export const AppRoute = () => {
   const { status, user, errorMessage } = useSelector((state) => state.auth);
 
   const auth = "not-authenticated";
+  console.log({status, user, errorMessage})
   return (
     <Routes>
-      {auth === "not-authenticated" ? (
+      {status === "not-authenticated" ? (
         <Route path="/auth/*" element={<AuthRoute />} />
       ) : (
         <Route path="/*" element={<CalendarPage />} />

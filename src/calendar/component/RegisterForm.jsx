@@ -18,7 +18,6 @@ export const RegisterForm = ({ setError }) => {
   const onFormSubmit = (event) => {
     event.preventDefault();
 
-    console.log("clicked form");
     if (form?.password !== form?.confirmPassword) {
       console.log("not the same password");
       setError("passwords are not the same");
@@ -32,8 +31,6 @@ export const RegisterForm = ({ setError }) => {
     };
 
     startNewAccount({ ...bodyForm });
-
-    console.log("done");
   };
 
   const onInputChange = useCallback(
@@ -126,7 +123,7 @@ export const RegisterForm = ({ setError }) => {
           onChange={onInputChange}
         />
       </div>
-      <div className="flex items-start">
+      {/* <div className="flex items-start">
         <div className="flex items-center h-5">
           <input
             id="terms"
@@ -150,7 +147,7 @@ export const RegisterForm = ({ setError }) => {
             </a>
           </label>
         </div>
-      </div>
+      </div> */}
       <button
         type="submit"
         className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"

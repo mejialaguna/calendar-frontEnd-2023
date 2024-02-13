@@ -9,11 +9,11 @@ export const CalendarEvent = ({ event }) => {
   const newEndData = new Date(end).toDateString();
 
   return (
-    <div className="flex flex-1  flex-col items-center justify-center leading-none">
-      <span className="text-xs">{/* {newStartDate} - {newEndData} */}</span>
-      <span> creator - {user.name}</span>
-      <span className="font-semibold"> title - {title.toUpperCase()} </span>
-      <span> {notes.toLowerCase()}</span>
+    <div className="flex flex-1  flex-col justify-center leading-none">
+      {/* <span className="text-xs">{newStartDate} - {newEndData}</span> */}
+      <span className="text-xs">{user.name}</span>
+      <span className="font-semibold text-sm"> {title.toUpperCase()} </span>
+      <span className="text-xs"> {notes.toLowerCase()}</span>
     </div>
   );
 };
