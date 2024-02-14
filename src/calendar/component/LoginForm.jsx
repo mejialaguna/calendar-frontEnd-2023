@@ -20,7 +20,6 @@ export const LoginForm = () => {
 
   const onFormSubmit = (event) => {
     event.preventDefault();
-
     startLogin({ ...form });
   };
 

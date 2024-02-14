@@ -11,9 +11,9 @@ export const DatePickerComponent = ({
 }) => {
   return (
     <>
-      <div className="mb-1">
+      <div className="mt-3 mb-1">
         <label className="block text-gray-700 text-sm font-bold mb-2">
-          start time and date
+          Start time and date
         </label>
         <DatePicker
           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mb-2"

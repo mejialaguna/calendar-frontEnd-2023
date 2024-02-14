@@ -1,24 +1,22 @@
-import { useDispatch, useSelector } from "react-redux";
-import { modalToggle, removeEvent } from "../../store";
+import { useDispatch, useSelector } from 'react-redux';
+import { modalToggle, removeEvent } from '../../store';
 
-import { differenceInSeconds, addHours } from "date-fns";
+import { differenceInSeconds, addHours } from 'date-fns';
 
-import Modal from "react-modal";
+import Modal from 'react-modal';
 
-import { useForm } from "../../hooks";
+import { useForm } from '../../hooks';
 
-import { DatePickerComponent, TitleAndNotes } from "./";
-
-import { save, calendar, remove } from "../../public";
+import { DatePickerComponent, TitleAndNotes } from './';
 
 const modalInitialState = {
-  title: "",
-  notes: "",
+  title: '',
+  notes: '',
   start: new Date(),
   end: addHours(new Date(), 2),
   user: {
     _id: 12345,
-    name: "JLML",
+    name: 'JLML',
   },
 };
 
@@ -40,12 +38,12 @@ export const CalendarModal = () => {
 
   const customStyles = {
     content: {
-      top: "50%",
-      left: "50%",
-      right: "auto",
-      bottom: "auto",
-      marginRight: "-50%",
-      transform: "translate(-100%, 0%)",
+      top: '50%',
+      left: '50%',
+      right: 'auto',
+      bottom: 'auto',
+      marginRight: '-50%',
+      transform: 'translate(-100%, 0%)',
     },
   };
 
@@ -64,30 +62,24 @@ export const CalendarModal = () => {
     dispatch(modalToggle());
   };
 
-  Modal.setAppElement("#root");
+  Modal.setAppElement('#root');
 
   return (
     <Modal
       isOpen={isDateModalOpen}
       onRequestClose={closeModal}
       style={customStyles}
-      className="modal"
-      overlayClassName="modal-fondo"
+      className='modal'
+      overlayClassName='modal-fondo'
       closeTimeoutMS={200}
     >
-      <div className="w-full max-w-md mx-auto">
-        <div className="flex flex-1 items-center ml-3 animate__bounceIn">
-          <img
-            src={calendar}
-            alt="calendar-icon"
-            className="w-8 h-8 inline mr-5"
-          />
-          <h1 className="text-3xl my-2 "> New Event </h1>
+      <div className='w-full max-w-md mx-auto'>
+        <div className='flex ml-3 animate__bounceIn'>
+          <h1 className='text-2xl '> New Event </h1>
         </div>
-        <hr />
 
         <form
-          className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
+          className='bg-white shadow border rounded px-8 pb-8 '
           onSubmit={onFormSubmit}
         >
           <DatePickerComponent {...allDatePickerData} />
@@ -96,26 +88,20 @@ export const CalendarModal = () => {
 
           <TitleAndNotes {...TitleAndNotesData} />
 
-          <div className="flex items-center justify-center gap-2">
+          <div className='flex items-center justify-center gap-2'>
             <button
-              className="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  focus:outline-none focus:shadow-outline"
-              type="submit"
+              className='bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  focus:outline-none focus:shadow-outline'
+              type='submit'
             >
-              <img className="w-8 h-8 inline mr-5" src={save} alt="save icon" />
               Save
             </button>
 
             {form._id && (
               <button
-                type="button"
-                className="bg-red-900 w-full hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                type='button'
+                className='bg-red-900 w-full hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
                 onClick={deleteEvent}
               >
-                <img
-                  className="w-8 h-8 inline mr-5"
-                  src={remove}
-                  alt="save icon"
-                />
                 Delete
               </button>
             )}

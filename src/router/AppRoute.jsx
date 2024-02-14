@@ -14,6 +14,12 @@ export const AppRoute = () => {
     if(localStorage.getItem('token')) checkAuthToken();
   }, [])
 
+  if (status === "checking") {
+    return (
+      <h1>Authenticating</h1>
+    )
+  }
+  
   return (
     <Routes>
       {status === "not-authenticated" ? (
