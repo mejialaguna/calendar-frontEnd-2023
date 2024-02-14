@@ -1,15 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { AuthRoute } from "../auth";
 
 import { CalendarPage } from "../calendar/pages";
+import { useAuthStore } from "../hooks";
 
 export const AppRoute = () => {
-  const { status, user, errorMessage } = useSelector((state) => state.auth);
+  // const { status, user, errorMessage } = useSelector((state) => state.auth);
+  const { checkAuthToken, status } = useAuthStore();
 
-  const auth = "not-authenticated";
-  console.log({status, user, errorMessage})
+  useEffect(() => {
+    if(localStorage.getItem('token')) checkAuthToken();
+  }, [])
+
   return (
     <Routes>
       {status === "not-authenticated" ? (
