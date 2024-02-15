@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { modalToggle, removeEvent } from '../../store';
 
-import { differenceInSeconds, addHours } from 'date-fns';
+import { addHours } from 'date-fns';
 
 import Modal from 'react-modal';
+import { modalToggle, removeEvent } from '../../store';
 
 import { useForm } from '../../hooks';
 
@@ -47,7 +47,9 @@ export const CalendarModal = () => {
     },
   };
 
-  const allDatePickerData = { ...form, error, isDateIncorrect, onDateChange };
+  const allDatePickerData = {
+    ...form, error, isDateIncorrect, onDateChange,
+  };
 
   const TitleAndNotesData = {
     ...form,
@@ -69,17 +71,17 @@ export const CalendarModal = () => {
       isOpen={isDateModalOpen}
       onRequestClose={closeModal}
       style={customStyles}
-      className='modal'
-      overlayClassName='modal-fondo'
+      className="modal"
+      overlayClassName="modal-fondo"
       closeTimeoutMS={200}
     >
-      <div className='w-full max-w-md mx-auto'>
-        <div className='flex ml-3 animate__bounceIn'>
-          <h1 className='text-2xl '> New Event </h1>
+      <div className="w-full max-w-md mx-auto">
+        <div className="flex ml-3 animate__bounceIn">
+          <h1 className="text-2xl "> New Event </h1>
         </div>
 
         <form
-          className='bg-white shadow border rounded px-8 pb-8 '
+          className="bg-white shadow border rounded px-8 pb-8 "
           onSubmit={onFormSubmit}
         >
           <DatePickerComponent {...allDatePickerData} />
@@ -88,18 +90,20 @@ export const CalendarModal = () => {
 
           <TitleAndNotes {...TitleAndNotesData} />
 
-          <div className='flex items-center justify-center gap-2'>
+          <div className="flex items-center justify-center gap-2">
             <button
-              className='bg-blue-500 w-full hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  focus:outline-none focus:shadow-outline'
-              type='submit'
+              className="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold
+               py-2 px-4 rounded  focus:outline-none focus:shadow-outline"
+              type="submit"
             >
               Save
             </button>
 
             {form._id && (
               <button
-                type='button'
-                className='bg-red-900 w-full hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline'
+                type="button"
+                className="bg-red-900 w-full hover:bg-red-700 text-white font-bold
+                 py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 onClick={deleteEvent}
               >
                 Delete

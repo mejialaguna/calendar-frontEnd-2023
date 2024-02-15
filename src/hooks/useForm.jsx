@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import { differenceInSeconds, addHours } from "date-fns";
+import { differenceInSeconds } from 'date-fns';
 
-import { useDispatch, useSelector } from "react-redux";
-import { modalToggle } from "../store/ui/uiSlice";
-import { addNewEvent, updateEvent } from "../store";
+import { useDispatch, useSelector } from 'react-redux';
+import { modalToggle } from '../store/ui/uiSlice';
+import { addNewEvent, updateEvent } from '../store';
 
 export const useForm = (modalInitialState) => {
   const dispatch = useDispatch();
@@ -49,6 +49,7 @@ export const useForm = (modalInitialState) => {
 
     const difference = differenceInSeconds(form.end, form.start);
 
+    // eslint-disable-next-line no-restricted-globals
     if (difference <= 0 || isNaN(difference)) {
       setError(true);
       setIsDateIncorrect(true);
@@ -71,7 +72,7 @@ export const useForm = (modalInitialState) => {
       dispatch(modalToggle());
     }
 
-    console.log("submitted");
+    console.log('submitted');
   };
 
   return {

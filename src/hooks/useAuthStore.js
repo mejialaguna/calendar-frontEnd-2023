@@ -1,6 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import calendarApi from '../axiosApi';
-import { checking, onLogin, onLogout, onRegistration } from '../store';
+import {
+  checking, onLogin, onLogout, onRegistration,
+} from '../store';
 
 export const useAuthStore = () => {
   const { status, user, errorMessage } = useSelector((state) => state.auth);
@@ -15,8 +17,8 @@ export const useAuthStore = () => {
       if (data?.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('token-init-date', new Date().getTime());
-        const user = data?.user;
-        dispatch(onLogin({ ...user }));
+        const userLoginCredentials = data?.user;
+        dispatch(onLogin({ ...userLoginCredentials }));
       }
     } catch (error) {
       dispatch(onLogout(error?.response?.data?.message));
@@ -39,18 +41,18 @@ export const useAuthStore = () => {
     }
   };
 
+  // eslint-disable-next-line consistent-return
   const checkAuthToken = async () => {
     const token = localStorage.getItem('token');
     if (!token) return dispatch(onLogout());
 
     try {
-
       const { data } = await calendarApi.get('/auth/renew');
-      const user = { name: data.username, userId: data.userId, email: data.userEmail };
+      const userLoginCredentials = { name: data.username, userId: data.userId, email: data.userEmail };
 
       localStorage.setItem('token', data.token);
       localStorage.setItem('token-init-date', new Date().getTime());
-      dispatch(onLogin({...user}));
+      dispatch(onLogin({ ...userLoginCredentials }));
     } catch (error) {
       localStorage.clear();
       dispatch(onLogout());

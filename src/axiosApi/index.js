@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { getEnvironmentVar } from "../helper";
+import { getEnvironmentVar } from '../helper';
 
 const { VITE_API_URL } = getEnvironmentVar().envVariable;
 const calendarApi = axios.create({
@@ -11,14 +11,17 @@ const calendarApi = axios.create({
     todo: ===========> add interceptors......
 */
 if (localStorage.getItem('token')) {
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token');
   calendarApi.interceptors.request.use((config) => {
-      config.headers = {
-          ...config.headers,
+    const newConfig = {
+      ...config,
+      headers: {
+        ...config.headers,
         'x-token': token,
-      }
-    return config;
-      })
-    }
+      },
+    };
+    return newConfig;
+  });
+}
 
-export default calendarApi
+export default calendarApi;

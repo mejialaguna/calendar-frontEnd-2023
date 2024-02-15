@@ -1,5 +1,5 @@
-export const ShowHide = ({ showPassword, togglePasswordVisibility }) => {
-  return (
+/* eslint-disable max-len */
+export const ShowHide = ({ showPassword, togglePasswordVisibility }) => (
     <button
       type="button"
       className="absolute top-1/2 right-3 transform -translate-y-1/2 focus:outline-none"
@@ -32,5 +32,4 @@ export const ShowHide = ({ showPassword, togglePasswordVisibility }) => {
         </svg>
       )}
     </button>
-  );
-};
+);

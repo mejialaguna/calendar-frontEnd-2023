@@ -1,21 +1,22 @@
-import { createSlice } from "@reduxjs/toolkit";
+/* eslint-disable no-param-reassign */
+import { createSlice } from '@reduxjs/toolkit';
 
-import { addHours } from "date-fns";
+import { addHours } from 'date-fns';
 
 const tempEvents = {
   _id: new Date().getTime(),
-  title: "my birthday",
-  notes: "GET SOME HOES",
+  title: 'my birthday',
+  notes: 'GET SOME HOES',
   start: new Date(),
   end: addHours(new Date(), 2),
   user: {
     id: 123456789,
-    name: "JLML",
+    name: 'JLML',
   },
 };
 
 export const calendarSlice = createSlice({
-  name: "calendar",
+  name: 'calendar',
   initialState: {
     events: [tempEvents],
     activeEvent: null,
@@ -29,14 +30,12 @@ export const calendarSlice = createSlice({
       state.activeEvent = null;
     },
     updateEvent: (state, { payload }) => {
-      state.events = state.events.map((events) =>
-        events._id !== payload._id ? events : payload
-      );
+      state.events = state.events.map((events) => (events._id !== payload._id ? events : payload));
       state.activeEvent = null;
     },
     removeEvent: (state, { payload }) => {
       state.events = state.events.filter(
-        (events) => events._id !== payload._id
+        (events) => events._id !== payload._id,
       );
       state.activeEvent = null;
     },
@@ -44,5 +43,6 @@ export const calendarSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { onSetActiveEvent, addNewEvent, updateEvent, removeEvent } =
-  calendarSlice.actions;
+export const {
+  onSetActiveEvent, addNewEvent, updateEvent, removeEvent,
+} = calendarSlice.actions;

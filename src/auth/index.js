@@ -1,2 +1,2 @@
-export * from "./pages";
-export * from "./Routes";
+export * from './pages';
+export * from './Routes';

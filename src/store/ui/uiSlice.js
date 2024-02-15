@@ -1,7 +1,8 @@
-import { createSlice } from "@reduxjs/toolkit";
+/* eslint-disable no-param-reassign */
+import { createSlice } from '@reduxjs/toolkit';
 
 export const uiSlice = createSlice({
-  name: "ui",
+  name: 'ui',
   initialState: {
     isDateModalOpen: false,
   },
