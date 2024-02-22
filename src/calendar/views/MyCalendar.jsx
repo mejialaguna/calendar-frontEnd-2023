@@ -37,7 +37,6 @@ export const MyCalendar = () => {
   };
 
   const onSelect = (event) => {
-  // console.log({ click: event });
     setActiveEvent(event);
   };
 
@@ -73,7 +72,7 @@ export const MyCalendar = () => {
         // messages={languageLabels()} // how we change into a diff language of to change the look
       />
       <FloatingButton />
-      <CalendarModal />
+      <CalendarModal user={user} />
     </div>
   );
 };

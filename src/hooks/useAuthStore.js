@@ -30,7 +30,7 @@ export const useAuthStore = () => {
       dispatch(checking());
       const body = { username, email, password };
       const { data } = await calendarApi.post('/auth/new-user', { ...body });
-
+      console.log('===========>data', data);
       if (data.ok) {
         localStorage.setItem('token', data.token);
         localStorage.setItem('token-init-date', new Date().getTime());
@@ -48,7 +48,7 @@ export const useAuthStore = () => {
 
     try {
       const { data } = await calendarApi.get('/auth/renew');
-      const userLoginCredentials = { name: data.username, userId: data.userId, email: data.userEmail };
+      const userLoginCredentials = { name: data.name, userId: data.userId, email: data.userEmail };
 
       localStorage.setItem('token', data.token);
       localStorage.setItem('token-init-date', new Date().getTime());

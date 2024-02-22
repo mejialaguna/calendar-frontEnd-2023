@@ -18,7 +18,6 @@ export const useCalendarStore = () => {
 
   const startSavingEvent = async (calendarEvent) => {
     try {
-      console.log('====> calendarEvent', calendarEvent);
       if (calendarEvent.id) {
         // Actualizando
         await calendarApi.put(`/events/updateEvent/${calendarEvent.id}`, calendarEvent);
@@ -31,18 +30,18 @@ export const useCalendarStore = () => {
       dispatch(onAddNewEvent({ ...calendarEvent, id: data.event.eventData.messageId, user }));
     } catch (error) {
       console.log(error);
-      Swal.fire('Error al guardar', error.response.data.msg, 'error');
+      Swal.fire('Your can update an event created by another user', error.response.data.msg, 'error');
     }
   };
 
   const startDeletingEvent = async () => {
     // Todo: Llegar al backend
     try {
-      await calendarApi.delete(`/events/deleteEvent/${activeEvent.id}`);
+      await calendarApi.delete(`/events/deleteEvent/${activeEvent.messageId}`);
       dispatch(onDeleteEvent());
     } catch (error) {
       console.log(error);
-      Swal.fire('Error al eliminar', error.response.data.msg, 'error');
+      Swal.fire('Your cant delete an event from another User', error.response.data.msg, 'error');
     }
   };
 
@@ -53,7 +52,6 @@ export const useCalendarStore = () => {
       const events = convertEventsToDateEvents(data.event);
       dispatch(onLoadEvents(events));
     } catch (error) {
-      console.log('Error loading events');
       console.log(error);
     }
   };

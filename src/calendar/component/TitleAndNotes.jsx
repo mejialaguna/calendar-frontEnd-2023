@@ -1,7 +1,7 @@
 import React from 'react';
 import { Error } from './Error';
 
-export const TitleAndNotes = ({ error, isTitleIncorrect, title, notes, onInputChange }) => (
+export const TitleAndNotes = ({ formValues, onInputChanged, isValid }) => (
   <>
     <div className="my-4">
       <label htmlFor="titleAndNotes" className="block text-gray-700 text-sm font-bold mb-2">
@@ -10,7 +10,7 @@ export const TitleAndNotes = ({ error, isTitleIncorrect, title, notes, onInputCh
       <input
         id="titleAndNotes"
         className={`shadow appearance-none border rounded w-full py-2 px-3
-          text-gray-700 leading-tight focus:outline-none focus:shadow-outline `}
+          text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
         autoCorrect="off"
         placeholder="Título del evento"
         name="title"
@@ -18,12 +18,11 @@ export const TitleAndNotes = ({ error, isTitleIncorrect, title, notes, onInputCh
         value={formValues.title}
         onChange={onInputChanged}
       />
-
-      <small id="emailHelp" className={`${error && 'hidden'}`}>
-        short description
-      </small>
-
-      {error && isTitleIncorrect && <Error message="Please add a title > than 2 characters." />}
+      {!isValid.isValidTitle ? (
+        <small id="emailHelp">
+          <Error message={isValid.message} />
+        </small>
+      ) : null}
     </div>
 
     <div className="mb-4">

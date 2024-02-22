@@ -1,8 +1,6 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import { useMemo, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { addHours, differenceInSeconds } from 'date-fns';
 
-import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 import Modal from 'react-modal';
@@ -12,6 +10,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import es from 'date-fns/locale/es';
 import { useCalendarStore, useUiStore } from '../../hooks';
+import { TitleAndNotes } from './TitleAndNotes';
+import { Error } from './Error';
 
 registerLocale('es', es);
 
@@ -31,8 +31,15 @@ Modal.setAppElement('#root');
 export const CalendarModal = () => {
   const { isDateModalOpen, closeDateModal } = useUiStore();
   const { activeEvent, startSavingEvent, startDeletingEvent } = useCalendarStore();
+  const [isValid, setIsValid] = useState({
+    isValidTitle: true,
+    isValidDates: true,
+    message: '',
+  });
+  // const [isMessage, setIsMessage] = useState('');
 
-  const [formSubmitted, setFormSubmitted] = useState(false);
+  // const [formSubmitted, setFormSubmitted] = useState(false);
+  // const isMyEvent = useMemo(() => user.userId === activeEvent?.user._id || !activeEvent?.id, [user, activeEvent]);
 
   const [formValues, setFormValues] = useState({
     title: '',
@@ -41,11 +48,11 @@ export const CalendarModal = () => {
     end: addHours(new Date(), 2),
   });
 
-  const isValid = useMemo(() => {
-    if (!formSubmitted) return '';
+  // const isValid = useMemo(() => {
+  //   if (!formSubmitted) return '';
 
-    return formValues.title.length > 0;
-  }, [formValues.title, formSubmitted]);
+  //   return formValues.title.length > 0;
+  // }, [formValues.title, formSubmitted]);
 
   useEffect(() => {
     if (activeEvent !== null) {
@@ -58,6 +65,11 @@ export const CalendarModal = () => {
       ...formValues,
       [target.name]: target.value,
     });
+    setIsValid((prev) => ({
+      ...prev,
+      isValidTitle: true,
+      message: '',
+    }));
   };
 
   const onDateChanged = (event, changing) => {
@@ -65,6 +77,12 @@ export const CalendarModal = () => {
       ...formValues,
       [changing]: event,
     });
+
+    setIsValid((prev) => ({
+      ...prev,
+      isValidDates: true,
+      message: '',
+    }));
   };
 
   const onCloseModal = () => {
@@ -73,23 +91,38 @@ export const CalendarModal = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-    setFormSubmitted(true);
 
     const difference = differenceInSeconds(formValues.end, formValues.start);
 
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(difference) || difference <= 0) {
-      Swal.fire('Fechas incorrectas', 'Revisar las fechas ingresadas', 'error');
+      setIsValid((prev) => ({
+        ...prev,
+        isValidDates: false,
+        message: 'Wrong dates, please check the dates picked.',
+      }));
       return;
     }
 
-    if (formValues.title.length <= 0) return;
+    if (formValues.title.length <= 0) {
+      setIsValid((prev) => ({
+        ...prev,
+        isValidTitle: false,
+        message: 'add an Event Title.',
+      }));
+      return;
+    }
 
     await startSavingEvent(formValues);
+    setIsValid(true);
     closeDateModal();
-    setFormSubmitted(false);
   };
-console.log(activeEvent?.messageId);
+
+  const deleteEvent = async () => {
+    await startDeletingEvent();
+    closeDateModal();
+  };
+
   return (
     <Modal
       isOpen={isDateModalOpen}
@@ -100,8 +133,8 @@ console.log(activeEvent?.messageId);
       closeTimeoutMS={200}
     >
       <div className="w-full max-w-md mx-auto">
-        <h1> Nuevo evento </h1>
-        <hr />
+        <h1 className="mb-4"> New Event </h1>
+        {/* <hr /> */}
         <form className="bg-white shadow border rounded px-8 pb-8" onSubmit={onSubmit}>
           <div className="mt-3 mb-1">
             <label htmlFor={'datePicker'} className="block text-gray-700 text-sm font-bold mb-2">
@@ -140,44 +173,14 @@ console.log(activeEvent?.messageId);
               timeCaption="time"
             />
           </div>
+          {!isValid.isValidDates ? (
+            <small id="emailHelp">
+              <Error message={isValid.message} />
+            </small>
+          ) : null}
 
           <hr />
-
-          <div className="my-4">
-            <label htmlFor="titleAndNotes" className="block text-gray-700 text-sm font-bold mb-2">
-              Titles and notes
-            </label>
-            <input
-              id="titleAndNotes"
-              className={`shadow appearance-none border rounded w-full py-2 px-3
-          text-gray-700 leading-tight focus:outline-none focus:shadow-outline`}
-              autoCorrect="off"
-              placeholder="Título del evento"
-              name="title"
-              autoComplete="off"
-              value={formValues.title}
-              onChange={onInputChanged}
-            />
-
-            <small id="emailHelp" className={`${!isValid ? 'hidden' : 'inline'}`}>
-              short description
-            </small>
-          </div>
-
-          <div className="mb-4">
-            <textarea
-              className="shadow appearance-none border rounded w-full py-2 px-3
-        text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              type="text"
-              placeholder="Notas"
-              rows="5"
-              name="notes"
-              value={formValues.notes}
-              onChange={onInputChanged}
-            />
-
-            <small id="emailHelp">Additional Information</small>
-          </div>
+          <TitleAndNotes formValues={formValues} onInputChanged={onInputChanged} isValid={isValid} />
 
           <div className="flex items-center justify-center gap-2">
             <button
@@ -193,7 +196,7 @@ console.log(activeEvent?.messageId);
                 type="button"
                 className="bg-red-900 w-full hover:bg-red-700 text-white font-bold
                  py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                onClick={startDeletingEvent}
+                onClick={deleteEvent}
               >
                 Delete
               </button>

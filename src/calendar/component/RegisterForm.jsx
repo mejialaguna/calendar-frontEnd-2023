@@ -35,7 +35,10 @@ export const RegisterForm = ({ setError }) => {
   const onInputChange = useCallback(
     ({ target }) => {
       const { name, value } = target;
-      setForm({ ...form, [name]: value });
+      setForm((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
       setError('');
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
