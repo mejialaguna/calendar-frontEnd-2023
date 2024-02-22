@@ -7,11 +7,14 @@ export const uiSlice = createSlice({
     isDateModalOpen: false,
   },
   reducers: {
-    modalToggle: (state) => {
-      state.isDateModalOpen = !state.isDateModalOpen;
+    onOpenDateModal: (state) => {
+      state.isDateModalOpen = true;
+    },
+    onCloseDateModal: (state) => {
+      state.isDateModalOpen = false;
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { modalToggle } = uiSlice.actions;
+export const { onOpenDateModal, onCloseDateModal } = uiSlice.actions;

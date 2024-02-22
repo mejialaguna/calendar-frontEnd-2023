@@ -1,31 +1,28 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-
 import { addHours } from 'date-fns';
-import { modalToggle, onSetActiveEvent } from '../../store';
-
-const newEventValues = {
-  title: '',
-  notes: '',
-  start: new Date(),
-  end: addHours(new Date(), 2),
-  user: {
-    _id: 1234522,
-    name: 'JLML',
-  },
-};
+import { useCalendarStore, useUiStore } from '../../hooks';
 
 export const FloatingButton = () => {
-  const dispatch = useDispatch();
+  const { openDateModal } = useUiStore();
+  const { setActiveEvent } = useCalendarStore();
 
-  const onClick = () => {
-    dispatch(onSetActiveEvent(newEventValues));
-    dispatch(modalToggle());
+  const handleClickNew = () => {
+    setActiveEvent({
+      title: '',
+      notes: '',
+      start: new Date(),
+      end: addHours(new Date(), 2),
+      bgColor: '#fafafa',
+      user: {
+        // _id: '123',
+        // name: 'Fernando',
+      },
+    });
+    openDateModal();
   };
 
   return (
     <button
-      onClick={onClick}
+      onClick={handleClickNew}
       type='button'
       title='Contact Sale'
       className='fixed z-90 bottom-10 right-20 bg-blue-600 animate-bounce
