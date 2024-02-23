@@ -19,7 +19,7 @@ export const RegisterForm = ({ setError }) => {
     event.preventDefault();
 
     if (form?.password !== form?.confirmPassword) {
-      setError('passwords are not the same');
+      setError('Please make sure passwords match');
       return;
     }
 
