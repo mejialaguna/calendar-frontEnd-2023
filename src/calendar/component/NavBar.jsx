@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useAuthStore } from '../../hooks';
 import { Popup } from './Popup';
+import { logoutGif } from '../../public';
 
 export const NavBar = () => {
   const [isPopup, setIsPopup] = useState(false);
@@ -18,9 +19,7 @@ export const NavBar = () => {
             {user?.name}
           </h3>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <div onMouseEnter={openPopup} onMouseLeave={openPopup}
-              className='flex flex-row-reverse'
-            >
+            <div onMouseEnter={openPopup} onMouseLeave={openPopup} className="flex flex-row-reverse">
               <button
                 type="button"
                 className="flex rounded-full bg-gray-800 text-sm
@@ -31,9 +30,9 @@ export const NavBar = () => {
                 aria-haspopup="true"
                 onClick={startLogout}
               >
-                <img className="h-6 w-[1rem]" src="../src/public/icons8-logout.gif" alt="GIF description" />
+                <img className="h-6 w-[1rem]" src={logoutGif} alt="GIF description" />
               </button>
-            <Popup isOpen={isPopup} message={'Logout'} />
+              <Popup isOpen={isPopup} message={'Logout'} />
             </div>
           </div>
         </div>

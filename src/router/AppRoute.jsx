@@ -12,7 +12,7 @@ export const AppRoute = () => {
 
   useEffect(() => {
     if (localStorage.getItem('token')) checkAuthToken();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (status === 'checking') {
@@ -24,13 +24,17 @@ export const AppRoute = () => {
   return (
     <Routes>
       {status === 'not-authenticated' ? (
-        <Route path="/auth/*" element={<AuthRoute />} />
+        <>
+          <Route path="/auth/*" element={<AuthRoute />} />
+          {/* route by defaulth if they try to navigate to any page route if they are not authenticated just for fail save */}
+          <Route path="/*" element={<Navigate to={'/auth/login'} />} />
+        </>
       ) : (
-        <Route path="/*" element={<CalendarPage />} />
+        <>
+          <Route path="/" element={<CalendarPage />} />
+          <Route path="/*" element={<Navigate to="/" />} />
+        </>
       )}
-
-      {/* route by defaulth if they try to navigate to any page route if they are not authenticated just for fail save */}
-      <Route path="/*" element={<Navigate to={'/auth/login'} />} />
     </Routes>
   );
 };
