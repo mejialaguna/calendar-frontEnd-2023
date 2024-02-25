@@ -49,7 +49,6 @@ export const MyCalendar = () => {
   useEffect(() => {
     startLoadingEvents();
   }, []);
-  // console.log(events)
 
   return (
     <div className="mx-10 my-5">

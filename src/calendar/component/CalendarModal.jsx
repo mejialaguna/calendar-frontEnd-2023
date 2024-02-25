@@ -31,15 +31,15 @@ Modal.setAppElement('#root');
 export const CalendarModal = () => {
   const { isDateModalOpen, closeDateModal } = useUiStore();
   const { activeEvent, startSavingEvent, startDeletingEvent } = useCalendarStore();
+  const [isMessageNew, setIsMessageNew] = useState({
+    isValid: true,
+    message: '',
+  });
   const [isValid, setIsValid] = useState({
     isValidTitle: true,
     isValidDates: true,
     message: '',
   });
-  // const [isMessage, setIsMessage] = useState('');
-
-  // const [formSubmitted, setFormSubmitted] = useState(false);
-  // const isMyEvent = useMemo(() => user.userId === activeEvent?.user._id || !activeEvent?.id, [user, activeEvent]);
 
   const [formValues, setFormValues] = useState({
     title: '',
@@ -47,12 +47,6 @@ export const CalendarModal = () => {
     start: new Date(),
     end: addHours(new Date(), 2),
   });
-
-  // const isValid = useMemo(() => {
-  //   if (!formSubmitted) return '';
-
-  //   return formValues.title.length > 0;
-  // }, [formValues.title, formSubmitted]);
 
   useEffect(() => {
     if (activeEvent !== null) {
@@ -68,6 +62,12 @@ export const CalendarModal = () => {
     setIsValid((prev) => ({
       ...prev,
       isValidTitle: true,
+      message: '',
+    }));
+
+    setIsMessageNew((prev) => ({
+      ...prev,
+      isValid: true,
       message: '',
     }));
   };
@@ -91,7 +91,6 @@ export const CalendarModal = () => {
 
   const onSubmit = async (event) => {
     event.preventDefault();
-
     const difference = differenceInSeconds(formValues.end, formValues.start);
 
     // eslint-disable-next-line no-restricted-globals
@@ -109,6 +108,15 @@ export const CalendarModal = () => {
         ...prev,
         isValidTitle: false,
         message: 'add an Event Title.',
+      }));
+      return;
+    }
+
+    if (formValues.title === activeEvent?.title) {
+      setIsMessageNew((prev) => ({
+        ...prev,
+        isValid: false,
+        message: 'theres no changes to be made...',
       }));
       return;
     }
@@ -180,6 +188,7 @@ export const CalendarModal = () => {
           ) : null}
 
           <hr />
+          {!isMessageNew.isValid ? <Error message={isMessageNew.message} /> : null}
           <TitleAndNotes formValues={formValues} onInputChanged={onInputChanged} isValid={isValid} />
 
           <div className="flex items-center justify-center gap-2">

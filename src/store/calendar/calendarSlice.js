@@ -20,23 +20,31 @@ export const calendarSlice = createSlice({
       state.activeEvent = null;
     },
     onUpdateEvent: (state, { payload }) => {
+      console.log('=========> payload', payload);
       state.events = state.events.map((event) => {
-        if (event.id === payload.id) {
+        if (event.messageId === payload.messageId) {
+          console.log('here event');
           return payload;
         }
+        console.log('here event 2');
+        // console.log('============payload >', payload);
+        // console.log('============state >', JSON.parse(JSON.stringify(event)));
         return event;
       });
     },
+    // console.log('============state >', JSON.parse(JSON.stringify(state)));
     onDeleteEvent: (state) => {
       if (state.activeEvent) {
-        state.events = state.events.filter((event) => event.id !== state.activeEvent.id);
+        state.events = state.events.filter((event) => event.messageId !== state.activeEvent.messageId);
         state.activeEvent = null;
       }
     },
     onLoadEvents: (state, { payload = [] }) => {
       state.isLoadingEvents = false;
 
-      const newEvents = payload.filter((event) => !state.events.some((dbEvent) => dbEvent.id === event.id));
+      const newEvents = payload.filter(
+        (event) => !state.events.some((dbEvent) => dbEvent.messageId === event.messageId),
+      );
 
       state.events = state.events.concat(newEvents);
     },
