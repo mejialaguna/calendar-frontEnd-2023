@@ -24,7 +24,6 @@ export const calendarSlice = createSlice({
         if (event.id === payload.id) {
           return payload;
         }
-
         return event;
       });
     },
@@ -36,13 +35,10 @@ export const calendarSlice = createSlice({
     },
     onLoadEvents: (state, { payload = [] }) => {
       state.isLoadingEvents = false;
-      // state.events = payload;
-      payload.forEach((event) => {
-        const exists = state.events.some((dbEvent) => dbEvent.id === event.id);
-        if (!exists) {
-          state.events.push(event);
-        }
-      });
+
+      const newEvents = payload.filter((event) => !state.events.some((dbEvent) => dbEvent.id === event.id));
+
+      state.events = state.events.concat(newEvents);
     },
     onLogoutCalendar: (state) => {
       // eslint-disable-next-line no-sequences

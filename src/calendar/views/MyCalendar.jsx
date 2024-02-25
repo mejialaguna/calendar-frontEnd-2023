@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Calendar } from 'react-big-calendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -12,6 +12,7 @@ export const MyCalendar = () => {
   const { user } = useAuthStore();
   const { openDateModal } = useUiStore();
   const { events, setActiveEvent, startLoadingEvents } = useCalendarStore();
+  const token = useMemo(() => localStorage.getItem('token') || [], []);
 
   const [lastView, setLastView] = useState(
     localStorage.getItem('lastView') || 'week',
@@ -19,7 +20,7 @@ export const MyCalendar = () => {
 
   const eventStyleGetter = (event, start, end, isSelected) => {
     const isMyEvent = user.userId === event.user._id || user.userId === event.user.id;
-
+    // console.log({ isMyEvent })
     const style = {
       backgroundColor: isMyEvent ? '#347CF7' : '#465660',
       borderRadius: '0px',
@@ -48,6 +49,7 @@ export const MyCalendar = () => {
   useEffect(() => {
     startLoadingEvents();
   }, []);
+  // console.log(events)
 
   return (
     <div className="mx-10 my-5">

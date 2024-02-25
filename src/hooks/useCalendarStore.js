@@ -18,14 +18,16 @@ export const useCalendarStore = () => {
 
   const startSavingEvent = async (calendarEvent) => {
     try {
-      if (calendarEvent.id) {
+      if (calendarEvent.messageId) {
+        console.log('Actualizando id =>', calendarEvent.messageId);
         // Actualizando
-        await calendarApi.put(`/events/updateEvent/${calendarEvent.id}`, calendarEvent);
+        await calendarApi.put(`/events/updateEvent/${calendarEvent.messageId}`, calendarEvent);
         dispatch(onUpdateEvent({ ...calendarEvent, user }));
         return;
       }
 
       // Creando
+      console.log('Creando event =>', calendarEvent);
       const { data } = await calendarApi.post('/events/createEvent', calendarEvent);
       dispatch(onAddNewEvent({ ...calendarEvent, id: data.event.eventData.messageId, user }));
     } catch (error) {
