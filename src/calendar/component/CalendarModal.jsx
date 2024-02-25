@@ -32,7 +32,7 @@ export const CalendarModal = () => {
   const { isDateModalOpen, closeDateModal } = useUiStore();
   const { activeEvent, startSavingEvent, startDeletingEvent } = useCalendarStore();
   const [isMessageNew, setIsMessageNew] = useState({
-    isValid: true,
+    isValidNewMessage: true,
     message: '',
   });
   const [isValid, setIsValid] = useState({
@@ -67,7 +67,7 @@ export const CalendarModal = () => {
 
     setIsMessageNew((prev) => ({
       ...prev,
-      isValid: true,
+      isValidNewMessage: true,
       message: '',
     }));
   };
@@ -112,17 +112,17 @@ export const CalendarModal = () => {
       return;
     }
 
-    if (formValues.title === activeEvent?.title) {
+    if (formValues.title === activeEvent?.title && formValues.notes === activeEvent?.notes) {
       setIsMessageNew((prev) => ({
         ...prev,
-        isValid: false,
+        isValidNewMessage: false,
         message: 'theres no changes to be made...',
       }));
       return;
     }
 
     await startSavingEvent(formValues);
-    setIsValid(true);
+    setIsValid(isValid);
     closeDateModal();
   };
 
@@ -188,12 +188,12 @@ export const CalendarModal = () => {
           ) : null}
 
           <hr />
-          {!isMessageNew.isValid ? <Error message={isMessageNew.message} /> : null}
+          {!isMessageNew.isValidNewMessage ? <Error message={isMessageNew.message} /> : null}
           <TitleAndNotes formValues={formValues} onInputChanged={onInputChanged} isValid={isValid} />
 
           <div className="flex items-center justify-center gap-2">
             <button
-              className="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold
+              className="bg-blue-500 w-full hover:bg-blue-700 text-white font-bold cursor-pointer
                py-2 px-4 rounded  focus:outline-none focus:shadow-outline"
               type="submit"
             >
@@ -203,7 +203,7 @@ export const CalendarModal = () => {
             {activeEvent?.messageId && (
               <button
                 type="button"
-                className="bg-red-900 w-full hover:bg-red-700 text-white font-bold
+                className="bg-red-900 w-full hover:bg-red-700 text-white font-bold cursor-pointer
                  py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 onClick={deleteEvent}
               >

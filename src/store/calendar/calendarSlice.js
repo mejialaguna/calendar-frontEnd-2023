@@ -20,15 +20,10 @@ export const calendarSlice = createSlice({
       state.activeEvent = null;
     },
     onUpdateEvent: (state, { payload }) => {
-      console.log('=========> payload', payload);
       state.events = state.events.map((event) => {
         if (event.messageId === payload.messageId) {
-          console.log('here event');
           return payload;
         }
-        console.log('here event 2');
-        // console.log('============payload >', payload);
-        // console.log('============state >', JSON.parse(JSON.stringify(event)));
         return event;
       });
     },
